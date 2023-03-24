@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="mt-4 mb-4">Plano Public Library Book Checkout Website</h1>
+<div>
+    <form method="post">
+        {% csrf_token %}
+	    <div class="form-group mb-4">>
+            <label for="library_number">Library Number:</label>
+            <input class="form-control" type="text" id="library_number" name="library_number" placeholder="858695459390850986" required>
+        </div>
+        <div class="form-group mb-4">>
+            <label for="first_name">First Name:</label>
+            <input class="form-control" type="text" id="first_name" name="first_name" placeholder="John" required>
+        </div>
+        <div class="form-group mb-4">>
+            <label for="last_name">Last Name:</label>
+            <input class="form-control" type="text" id="last_name" name="last_name" placeholder="Kennedy" required>
+        </div>
+	    <div class="form-group mb-4">>
+            <label for="book_name">Name of the Book:</label>
+            <input class="form-control" type="text" id="book_name" name="book_name" placeholder="Silenced" required>
+        </div>
+	    <div class="form-group mb-4">>
+            <label for="book_author_last_name">Last Name of the Author:</label>
+            <input class="form-control" type="text" id="book_author_last_name" name="book_author_last_name" placeholder="Rovin" required>
+        </div>
+	    <div class="form-group mb-4">>
+            <label for="ISBN">ISBN:</label>
+            <input class="form-control" type="text" id="ISBN" name="ISBN" placeholder="4884857498859828" required>
+        </div>
+	    >> <button class="btn btn-secondary" type="submit">Submit</button>
+	    <br>
+        {% if messages %}
+	        <div class="alert alert-success">
+		        {% for message in messages %}
+			        {{ message }}
+		        {% endfor %}
+	        </div>
+        {% endif %}
+    </form>
+</div>
+{% endblock %}

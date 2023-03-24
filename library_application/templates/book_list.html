@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+	<h1>Book List</h1>
+	<h6 style="font-size: 15px;">Use CTRL-F to search</h6>
+	<hr>
+	<div style="">
+	{% for data_single in data %}
+		<div class="card" style="width: 14rem; padding-left: 10px; padding-top: 10px; display:inline; float:left;">
+			  <img src="{{ data_single.pic_url }}" class="card-img-top" alt="Hello There">
+			  <div class="card-body">
+				  <h5 class="card-title">{{ data_single.book_name }} </h5>
+				  <h5 class="card-title"> {{ data_single.book_author_last_name }},
+				{{ data_single.book_author_first_name }} </h5>
+			    <p class="card-text"><p>ISBN: {{ data_single.ISBN }}</p>
+			  </div>
+
+		</div>
+	</div>
+	{% endfor %}
+{% endblock %}
