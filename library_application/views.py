@@ -40,12 +40,13 @@ def index(request):
 			library_data = Account.objects.values_list('library_number', flat=True)
 			email_data = Account.objects.all().values_list('email', flat=True)
 			for i in range(0, len(library_data), 2):
-				res_dict = dict({f"{i+1}": library_data[i]})
+				res_dict = dict({f"{i + 1}": library_data[i]})
 				email_dict = dict({f"{i + 1}": email_data[i]})
 
 			for index in range(0, len(library_data)):
 				if library_number == res_dict[f"{index+1}"]:
 					email_var += email_dict[f"{index+1}"]
+					break
 
 			email_message = EmailMessage("Hold Confirmation Email", message_body, to=[email_var])
 			email_message.send()
