@@ -1,8 +1,11 @@
 import filestack
+import os
+
+API_KEY = os.getenv("FILESTACK_API_KEY")
 
 
 class FileSharer:
-	def __init__(self, filepath=f"download.jpg", api_key="AmJkWTGMSxSKoGxC3EWHdz"):
+	def __init__(self, filepath=f"download.jpg", api_key=API_KEY):
 		self.filepath = filepath
 		self.api_key = api_key
 
