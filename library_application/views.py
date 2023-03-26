@@ -24,7 +24,7 @@ def index(request):
 			messages.success(request, "Hold successfully placed!")
 
 			message_body = f"Was it you, {first_name.capitalize()} {last_name.capitalize()} who checked out " \
-			               f"{book_name.capitalize()}. If yes, please reply to this email with YES (in uppercase). " \
+			               f"{book_name.title()}. If yes, please reply to this email with YES (in uppercase). " \
 			               f"If no, immediately contact newsgsnc@gmail.com to revoke the hold or change it. For any " \
 			               f"questions, contact the mentioned email. We will reach out to you as soon as possible.\n" \
 			               f"Current Data:\n" \
