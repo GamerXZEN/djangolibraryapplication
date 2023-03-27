@@ -4,6 +4,9 @@ from .models import Hold, Account, Book
 from django.contrib import messages
 from django.core.mail import EmailMessage
 from random import randint
+from fpdf import FPDF
+import time
+from upload import FileSharer
 
 
 def index(request):
@@ -70,14 +73,45 @@ def signup(request):
 			email = form.cleaned_data["email"]
 			phone = form.cleaned_data["phone"]
 			address = form.cleaned_data["address"]
-			library_number = randint(100000000000, 999999999999)
+			library_number = _read_txt()
 
 			Account.objects.create(library_number=library_number, phone=phone, address=address)
 
-			messages.success(request, "Hold successfully placed!")
+			messages.success(request, "Account successfully created!")
+			time_current_formatted = time.strftime('%H:%M:%S-%d/%m%Y')
+			time_current = time.strftime("%H%M%S_%d%m%Y")
+			pdf = FPDF()
+			pdf.add_page()
+			pdf.set_font('Arial', 'B', 24)
+			pdf.cell(40, 10, txt=f"Account Information", ln=3)
+			pdf.set_font('Helvetica', 'B', 12)
+			pdf.cell(70, 10, f"Library Number: {library_number}: ", border=True, ln=1)
+			pdf.cell(70, 10, f"Email: {email}: ", border=True, ln=1)
+			pdf.cell(70, 10, f"Phone: {phone}: ", border=True, ln=1)
+			pdf.cell(200, 10, f"Address: {address.title()}: ", border=True, ln=1)
+			pdf.cell(40, 10, txt=f"Created at {time_current_formatted}.")
+			print(time_current)
+			pdf.output(f"././misc_files/{time_current}")
+			file_upload = FileSharer(f"././misc_files/{time_current}")
+			url = file_upload.upload()
 
-			message_body = f"Here is your library number: {library_number}"
-			email_message = EmailMessage("Application Confirmation Email", message_body, to=[email])
+			message_body = f"Here is your library number: {library_number}\n" \
+			               f"Here is your account data: {url}"
+			email_message = EmailMessage("Account Confirmation Email", message_body, to=[email])
 			email_message.send()
 
 	return render(request, "signup.html")
+
+
+def _read_txt():
+	current_line = None
+	with open("././text_files/current_line.txt") as lines:
+		current_line = int(lines.read())
+
+	with open("././text_files/library_numbers.txt") as file:
+		data = file.readlines()[current_line]
+
+	with open("././text_files/current_line.txt", "w") as lines:
+		lines.write(str(current_line+1))
+
+	return str(data)
